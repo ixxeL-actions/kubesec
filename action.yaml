@@ -14,10 +14,9 @@ inputs:
     description: 'Force exit 0 code'
     required: false
     default: 'true'      
-  working-dir:
-    description: 'directory in which to find the Dockerfile'
-    required: false
-    default: '.'
+  file:
+    description: 'file to scan'
+    required: true
 
 runs:
   using: "composite"
@@ -29,15 +28,15 @@ runs:
         echo -e "${CYAN}[ INFO ] > Kubesec version.${BLANK}"
         kubesec version
 
-        echo -e "${YELLOW}[ EXECUTING ] > Executing Kubesec IaC test on ${{ inputs.working-dir }}.${BLANK}"
+        echo -e "${YELLOW}[ EXECUTING ] > Executing Kubesec IaC test on ${{ inputs.file }}.${BLANK}"
 
         if [[ "${{ inputs.format }}" = "json" ]]
         then
           echo -e "${CYAN}[ INFO ] > Using JSON format.${BLANK}"
-          kubesec scan --format=${{ inputs.format }} --output=${{ inputs.output }} ${{ inputs.working-dir }} | jq -C
+          kubesec scan --format=${{ inputs.format }} --output=${{ inputs.output }} ${{ inputs.file }} | jq -C
         else
           echo -e "${CYAN}[ INFO ] > Using TEMPLATE format.${BLANK}"
-          kubesec scan --format=${{ inputs.format }} --output=${{ inputs.output }} ${{ inputs.working-dir }}
+          kubesec scan --format=${{ inputs.format }} --output=${{ inputs.output }} ${{ inputs.file }}
         fi
 
         EXIT_CODE="${PIPESTATUS[0]}"

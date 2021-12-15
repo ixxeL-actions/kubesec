@@ -20,4 +20,4 @@ jobs:
         format: 'json'
         output: ''
         exit-zero: 'true'      
-        working-dir: '.'
+        working-dir: 'deploy-test.yaml'
