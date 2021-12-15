@@ -1,0 +1,23 @@
+name: Kubesec-CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: 
+      image: ixxel/unit-tests-alpine:latest
+    steps:
+    - name: Git clone repo
+      uses: actions/checkout@v2
+    - name: Kubesec IaC security scan
+      uses: ixxeL-actions/kubesec@main
+      with:
+        format: 'json'
+        output: ''
+        exit-zero: 'true'      
+        working-dir: '.'
